@@ -25,7 +25,7 @@ class StudentImport implements ToModel, WithHeadingRow, WithChunkReading, WithBa
         $name    = trim($row['alasm']);
         $status  = trim($row['odaa_altalb']);
         $path    = trim($row['almsar']);
-        $client_zoho_id   = trim($row['rkm_zoho']);
+        $client_zoho_id   = trim($row['rkm_alaamlaaa_zoho']);
 
         if(!is_null($serial_number) && !is_null($name) && !is_null($status) && !is_null($path)){
 
@@ -33,12 +33,12 @@ class StudentImport implements ToModel, WithHeadingRow, WithChunkReading, WithBa
                 'serial_number' => $serial_number,
                 'section' => $this->section,
             ],
-            [
-                'name'    => $name,
-                'status'  => $status == 'منتظم' ? '1' : '0',
-                'path'    => $path,
-                'client_zoho_id' => $client_zoho_id,
-            ]);
+                [
+                    'name'    => $name,
+                    'status'  => $status == 'منتظم' ? '1' : '0',
+                    'path'    => $path,
+                    'client_zoho_id' => $client_zoho_id,
+                ]);
 
         }
     }
