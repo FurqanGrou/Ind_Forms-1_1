@@ -37,7 +37,7 @@ class StudentImport implements ToModel, WithHeadingRow, WithChunkReading, WithBa
                     'name'    => $name,
                     'status'  => $status == 'منتظم' ? '1' : '0',
                     'path'    => $path,
-                    'client_zoho_id' => $client_zoho_id,
+                    'client_zoho_id' => substr($client_zoho_id, 0, -1),
                 ]);
 
         }
