@@ -42,11 +42,11 @@ class CouponImport implements ToModel, WithHeadingRow, WithChunkReading, WithBat
                 'code' => $code . "m",
                 'type' => 'fixed',
                 'value' => $value*100,
-                'usage_limit' => 9,
+                'usage_limit' => 1,
                 'start_date' => Carbon::now('Asia/Riyadh')->toDate(),
                 'end_date' => '2023-04-11 00:00:00',
                 'active' => 1,
-                'limit_user' => 1,
+                'limit_user' => 99,
                 'specific_users' => 1,
                 'course_id' => $course->id,
             ]);
