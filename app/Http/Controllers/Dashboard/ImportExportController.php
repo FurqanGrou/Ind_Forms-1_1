@@ -18,9 +18,9 @@ class ImportExportController extends Controller
 
     public function importCoupons()
     {
-        Excel::import(new CouponImport(), 'coupons.xlsx');
+        Excel::import(new CouponImport(), 'new-2023-coupons.xlsx');
 
-        dd('Done');
+        dd('Coupons Imported Successfully!');
 //        return back()->withSuccess('تم تحديث بيانات الطلاب بنجاح');
     }
 
