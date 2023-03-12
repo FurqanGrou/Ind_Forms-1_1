@@ -30,9 +30,6 @@ class CouponImport implements ToModel, WithHeadingRow, WithChunkReading, WithBat
         $value   = trim($row['value']);
         $code    = trim($row['code']);
 
-        $Coupon = Coupon::query()->find(1823);
-        dd($Coupon);
-
         $course = Course::query()->where('code', '=', 'regular')->first();
         $student = Student::query()
             ->where('serial_number', '=', $serial_number)
@@ -42,7 +39,7 @@ class CouponImport implements ToModel, WithHeadingRow, WithChunkReading, WithBat
         if(!empty($serial_number) && !empty($section) && !empty($value) && !empty($code) && $student){
 
             $coupon = Coupon::create([
-                'code' => $code,
+                'code' => $code . "m",
                 'type' => 'fixed',
                 'value' => $value*100,
                 'usage_limit' => 1,
