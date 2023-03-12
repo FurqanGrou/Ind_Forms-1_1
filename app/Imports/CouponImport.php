@@ -25,7 +25,6 @@ class CouponImport implements ToModel, WithHeadingRow, WithChunkReading, WithBat
     public function model(array $row)
     {
 
-        dd($row);
         $serial_number = trim($row['serial_number']);
         $section = trim($row['section']) == 'بنين' ? '1' : '2';
         $value   = trim($row['value']);
@@ -42,7 +41,7 @@ class CouponImport implements ToModel, WithHeadingRow, WithChunkReading, WithBat
             $coupon = Coupon::create([
                 'code' => $code,
                 'type' => 'fixed',
-                'value' => $value,
+                'value' => $value*100,
                 'usage_limit' => 1,
                 'start_date' => Carbon::now('Asia/Riyadh')->toDate(),
                 'end_date' => '2023-04-11 00:00:00',
