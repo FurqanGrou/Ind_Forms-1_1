@@ -38,18 +38,20 @@ class CouponImport implements ToModel, WithHeadingRow, WithChunkReading, WithBat
 
         if(!empty($serial_number) && !empty($section) && !empty($value) && !empty($code) && $student){
 
-            $coupon = Coupon::create([
-                'code' => $code,
-                'type' => 'fixed',
-                'value' => $value*100,
-                'usage_limit' => 1,
-                'start_date' => Carbon::now('Asia/Riyadh')->toDate(),
-                'end_date' => '2023-04-11 00:00:00',
-                'active' => 1,
-                'limit_user' => 1,
-                'specific_users' => 1,
-                'course_id' => $course->id,
-            ]);
+            $coupon = Coupon::query()->updateOrCreate([
+                    'course_id' => $course->id,
+                    'code' => $code,
+                ],
+                [
+                    'type' => 'fixed',
+                    'value' => $value*100,
+                    'usage_limit' => 1,
+                    'start_date' => Carbon::now('Asia/Riyadh')->toDate(),
+                    'end_date' => '2023-04-11 00:00:00',
+                    'active' => 1,
+                    'limit_user' => 1,
+                    'specific_users' => 1,
+                ]);
 
             CouponStudent::create([
                 'student_id' => $student->id,
