@@ -18,7 +18,6 @@ class Coupon extends Model
 
     protected $guarded = [];
     protected $appends = ['is_valid'];
-    protected $primaryKey = 'id';
 
     public function getIsValidAttribute(){
         $student_id = Session::get('student_id');
