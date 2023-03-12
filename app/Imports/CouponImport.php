@@ -8,7 +8,6 @@ use App\Models\Course;
 use App\Models\Student;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithBatchInserts;
@@ -39,12 +38,12 @@ class CouponImport implements ToModel, WithHeadingRow, WithChunkReading, WithBat
 
         if(!empty($serial_number) && !empty($section) && !empty($value) && !empty($code) && $student){
 
-            $coupon = DB::table('coupons')->insert([
+            $coupon = Coupon::create([
                 'code' => $code,
                 'type' => 'fixed',
                 'value' => $value*100,
                 'usage_limit' => 1,
-                'start_date' => '2023-03-11 00:00:00',
+                'start_date' => Carbon::now('Asia/Riyadh')->toDate(),
                 'end_date' => '2023-04-11 00:00:00',
                 'active' => 1,
                 'limit_user' => 1,
@@ -52,8 +51,7 @@ class CouponImport implements ToModel, WithHeadingRow, WithChunkReading, WithBat
                 'course_id' => $course->id,
             ]);
 
-            dd($coupon);
-            CouponStudent::query()->create([
+            CouponStudent::create([
                 'student_id' => $student->id,
                 'coupon_id'  => $coupon->id,
             ]);
