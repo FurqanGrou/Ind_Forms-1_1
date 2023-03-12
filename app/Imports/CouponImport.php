@@ -36,7 +36,6 @@ class CouponImport implements ToModel, WithHeadingRow, WithChunkReading, WithBat
             ->where('section', '=', $section)
             ->first();
 
-        dd($student);
         if(!empty($serial_number) && !empty($section) && !empty($value) && !empty($code) && $student){
 
             $coupon = Coupon::create([
@@ -52,6 +51,7 @@ class CouponImport implements ToModel, WithHeadingRow, WithChunkReading, WithBat
                 'course_id' => $course->id,
             ]);
 
+            dd($coupon);
             CouponStudent::create([
                 'student_id' => $student->id,
                 'coupon_id'  => $coupon->id,
