@@ -33,7 +33,22 @@
                     <li>
                         <a class="menu-item" href="{{ route('dashboard.favorite-times.create') }}" data-i18n="nav.templates.vert.classic_menu">
                             <i class="ft ft-clock"></i>
-                            عرض جميع الأوقات
+                            اضافة وقت جديد
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="nav-item">
+                <a href="{{ route('dashboard.export.unsubscribed.students') }}">
+                    <i class="ft ft-edit"></i>
+                    <span class="menu-title" data-i18n="nav.templates.main">تصدير الطلاب غير المسجلين</span>
+                </a>
+                <ul class="menu-content">
+                    <li>
+                        <a class="menu-item" href="{{ route('dashboard.export.unsubscribed.students') }}" data-i18n="nav.templates.vert.classic_menu">
+                            <i class="ft ft-clock"></i>
+                            تصدير الطلاب غير المسجلين
                         </a>
                     </li>
                 </ul>

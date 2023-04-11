@@ -71,4 +71,6 @@ Route::group(['middleware' => [ 'web' => 'auth:admin' ], 'as' => 'dashboard.'], 
 
     Route::get('/students-names', [CouponController::class, 'getStudentsNames'])->name('students.names');
 
+    Route::get('/export-unsubscribed-students', [ImportExportController::class, 'unsubscribedStudents'])->name('export.unsubscribed.students');
+    Route::post('/export-unsubscribed-students', [ImportExportController::class, 'exportUnsubscribedStudents'])->name('export.unsubscribed.students.store');
 });

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Exports\UnsubscribedStudentsExport;
 use App\Http\Controllers\Controller;
 use App\Imports\CouponImport;
 use App\Imports\StudentImport;
@@ -44,4 +45,13 @@ class ImportExportController extends Controller
         return view('dashboard.import-export.students');
     }
 
+    public function unsubscribedStudents()
+    {
+        return view('dashboard.import-export.unsubscribed-students');
+    }
+
+    public function exportUnsubscribedStudents(Request $request)
+    {
+        return Excel::download(new UnsubscribedStudentsExport($request->from, $request->to), 'unsubscribed-students.xlsx');
+    }
 }
