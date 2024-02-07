@@ -72,6 +72,7 @@ class Coupon extends Model
             ['student_id' => $student_id, 'coupon_id' => $this->id]
         );
 
+
     }
 
     public function getDiscount($subtotal)

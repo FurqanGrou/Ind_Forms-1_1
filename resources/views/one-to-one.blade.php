@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
 
     <link rel="icon" type="image/x-icon" href="https://furqanshop.com/new-students/favicon.ico">
+
     <style>
 
         * {
@@ -35,7 +36,7 @@
         }
 
         .label-time {
-            margin-right: 25px !important;
+            margin-right: 40px !important;
         }
 
         .input-time {
@@ -47,7 +48,7 @@
             text-align: left !important;
         }
         .label-time {
-            margin-left: 25px;
+            margin-left: 40px;
             margin-right: 0 !important;
         }
         .input-time {
@@ -304,8 +305,8 @@
             font-weight: bold;
             font-family: Cairo;
         }
-
-        #cover-bg {
+        
+                #cover-bg {
             background-image: url("https://furqanshop.com/new-students/images/logo.jpg");
             width: 100%;
             height: 96px;
@@ -326,6 +327,7 @@
             display: flex;
             align-items: center;
         }
+        
         header img {
             margin-right: 10px;
         }
@@ -338,6 +340,7 @@
                 align-items: center!important;
             }
         }
+
     </style>
 
     {{--  checkout frame styles  --}}
@@ -446,17 +449,17 @@
             <div class="card px-0 pt-4 pb-0 mt-3 mb-3">
                 <h2 id="heading">{{ __('Second semester 2022 - one to one') }}</h2>
 
-                {{--                @if(session('success'))--}}
-                {{--                    <div class="alert alert-success" role="alert">--}}
-                {{--                        {{ session('success') }}--}}
-                {{--                    </div>--}}
-                {{--                @endif--}}
+{{--                @if(session('success'))--}}
+{{--                    <div class="alert alert-success" role="alert">--}}
+{{--                        {{ session('success') }}--}}
+{{--                    </div>--}}
+{{--                @endif--}}
 
-                {{--                @if(session('error'))--}}
-                {{--                    <div class="alert alert-danger" role="alert">--}}
-                {{--                        {{ session('error') }}--}}
-                {{--                    </div>--}}
-                {{--                @endif--}}
+{{--                @if(session('error'))--}}
+{{--                    <div class="alert alert-danger" role="alert">--}}
+{{--                        {{ session('error') }}--}}
+{{--                    </div>--}}
+{{--                @endif--}}
 
                 <form id="msform" action="{{ route('semester.subscribeOneToOne') }}" method="POST" enctype="multipart/form-data">
                 @csrf
@@ -480,150 +483,48 @@
                                 </div>
                             </div>
 
-                            @if(app()->getLocale() == 'ar')
-                                <p class="text-right">
-
-                                    أعزاءنا أولياء الأمور.. تم فتح مجال التسجيل في نظام التعليم الفردي لطلاب وطالبات قسم الحفظ، حيث يتميز نظام التعليم الفردي بتخصيص معلم خاص لكل طالب، وتقليل مدة الحلقة مع الحفاظ على جودة التعليم المعهودة، يرجى الاطلاع على التفاصيل التالية:
-
-
-                                    <br>
-                                    <br>
-
-                                <table class="ltr-table" border="2">
-                                    <tbody>
-                                    <tr>
-                                        <td>الفئة المستهدفة:</td>
-                                        <td style="color: #48742b;">طلاب وطالبات قسم الحفظ</td>
-                                    </tr>
-                                    <tr>
-                                        <td>مدة الحصة:</td>
-                                        <td style="color: #48742b;">ساعة يوميا (5 أيام في الأسبوع)</td>
-                                    </tr>
-                                    <tr>
-                                        <td>الفترة:</td>
-                                        <td style="color: #48742b;">يمكن اختيار الوقت المفضل ضمن الأوقات المحددة أدناه</td>
-                                    </tr>
-                                    <tr>
-                                        <td>الرسوم الدراسية:</td>
-                                        <td style="color: #48742b;">{{ $course->price }}$ ({{ intval($course->price*3.75) }} ريال) للفصل الدراسي</td>
-                                    </tr>
-                                    <tr>
-                                        <td>مدة الفصل الدراسي:</td>
-                                        <td style="color: #48742b;">4 أشهر</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                            <p>
+                                <span class="d-block text-right">{{ __('Dear Parents') }}</span>
 
                                 <br>
 
-                                <span style="display: block; color: #ea3223; font-weight: bold; text-align: center !important;">
-                                    {{ __('Important! If you would like to register for the') }}
-                                </span>
 
-                                <br>
-                                <br>
 
-                                <span class="d-block text-center" style="font-weight: bold;">
-                                            في حال وجود استفسارات حول آليات سداد الرسوم وخيارات الدفع المتاحة نفيدكم أنه قد تم تخصيص أحد ممثلي قسم الحسابات للرد على استفساراتكم حيال الأمر وتقديم الدعم الكامل عبر المكتب الافتراضي لحل أي عوائق إن شاء الله..
-                                        </span>
-
-                                <br>
-                                <br>
-
-                                <span class="d-block text-center" style="color: #ea3223; font-weight: bold;">رابط المكتب الافتراضي:</span>
-                                <a class="text-center w-100 d-block" href="https://furqangroup.zoom.us/j/99947595293">https://furqangroup.zoom.us/j/99947595293</a>
-                                <br>
-
-                                <span class="d-block text-center" style="font-weight: bold !important; color: black; color: #ea3223;">الأسئلة الشائعة:</span>
-
-                                <span class="d-block text-center" style="color: #48742b;">أوقات الاستقبال من (الأحد إلى الخميس):</span>
-
-                                <ul class="text-right">
-                                    <li>9:00 صباحا - 10:00 مساء بتوقيت مكة المكرمة (GMT+3)</li>
-                                    <li>7:00 صباحا - 08:00 مساء بتوقيت المغرب العربي وفرنسا  (GMT+1)</li>
-                                    <li>1:00 صباحا - 02:00 مساء بتوقيت نيويورك ( GMT-5)</li>
-                                </ul>
-
-                                <span class="text-center d-block">مع تمنياتنا للجميع بالتوفيق والنجاح.</span>
-
-                                </p>
-                            @else
-                                <p>
-                                    <span class="d-block">Dear Parents,</span>
-                                    <span class="d-block">
-                                        The registration in the one-to-one classes for students in the memorization (Hifz) program is open now. In the one-to-one class system, a private tutor is assigned for each student individually. The class duration is reduced while the quality of education is maintained equally to the regular class systems. Kindly review the following details:
-                                    </span>
-
-                                    <br>
-
-                                <table class="ltr-table" border="2">
-                                    <tbody>
-                                    <tr>
-                                        <td>Target group</td>
-                                        <td style="color: #48742b;">Students in Memorization program (Hifz)</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Class duration</td>
-                                        <td style="color: #48742b;">1 hour, 5 days a week (Sunday to Thursday)</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Time</td>
-                                        <td style="color: #48742b;">The desired session can be chosen below</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Fees</td>
-                                        <td style="color: #48742b;">{{ $course->price }}$ ({{ intval($course->price*3.75) }} SAR) per semester</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Semester duration</td>
-                                        <td style="color: #48742b;">4 months</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-
-                                <br>
-                                <span class="d-block" style="color: #bb271a; font-weight: bold; text-align: center;">
+                            <br>
+                            <span class="d-block" style="color: #bb271a; font-weight: bold; text-align: center;">
                                 {{ __('Important! If you would like to register for the') }}
-</span>
+                            </span>
 
-                                <br>
+                            <br>
 
-                                <span class="d-block">
-                                            If you had any questions regarding the payment options and methods, we would like to inform you that you can visit our virtual office where we have assigned one of our representatives from the financial department to answer your questions and help you with that.
-                                        </span>
+                            <span class="w-100 text-center d-block" style="color: #bb271a; font-weight: bold;">
+                                {{ __('virtual office link:') }}
+                            </span>
 
-                                <span class="w-100 text-center d-block" style="color: #bb271a; font-weight: bold;">
-                                            virtual office link:
-                                        </span>
+                            <a class="w-100 text-center d-block" href="{{ __('https://furqangroup.zoom.us/j/99947595293') }}">
+                                {{ __('https://furqangroup.zoom.us/j/99947595293') }}
+                            </a>
+                            <br>
 
-                                <a class="w-100 text-center d-block" href="https://furqangroup.zoom.us/j/99947595293">
-                                    https://furqangroup.zoom.us/j/99947595293
-                                </a>
-                                <br>
+                            <span class="w-100 text-center d-block" style="color: #bb271a; font-weight: bold;">
+                                {{ __('Virtual office times:') }}
+                            </span>
 
-                                <span class="w-100 text-center d-block" style="color: #bb271a; font-weight: bold;">
-                                            Virtual office times:
-                                        </span>
+                            <span class="w-100 text-center d-block" style="color: #48742b; font-weight: bold;">
+                                {{ __('From Sunday till Thursday') }}
+                            </span>
 
-                                <span class="w-100 text-center d-block" style="color: #48742b; font-weight: bold;">
-                                            From Sunday till Thursday
-                                        </span>
-                                <span class="w-100 text-center d-block" style="color: #bb271a; font-weight: bold;">
-                                            at
-                                        </span>
+                            <ul class="text-right">
+                                <li>{{ __('09:00AM - 10:00PM Mecca time (GMT + 3)') }}</li>
+                                <li>{{ __('07:00AM - 08:00PM Morocco and France time (GMT+1)') }}</li>
+                                <li>{{ __('01:00AM - 02:00PM New York time (GMT-5)') }}</li>
+                            </ul>
 
-                                <ul>
-                                    <li>09:00AM - 10:00PM Mecca time (GMT + 3)</li>
-                                    <li>07:00AM - 08:00PM Morocco and France time (GMT+1)</li>
-                                    <li>01:00AM - 02:00PM New York time (GMT-5)</li>
-                                </ul>
+                            <span class="w-100 text-center d-block" style="color: black; font-weight: bold;">
+                                {{ __('We wish you all good health and success by Allah will') }}
+                            </span>
 
-                                <span class="w-100 text-center d-block" style="color: black; font-weight: bold;">
-                                            We wish you all good health and success by Allah will.
-                                        </span>
-
-                                </p>
-                            @endif
+                            </p>
 
                         </div>
 
@@ -666,15 +567,15 @@
                                 <input type="text" min="0" name="student_name" class="form-control" id="std-name" placeholder="..." required readonly>
                             </div>
 
-                            <div class="form-group text-right">
-                                <label for="residence_country">{{ __('resubscribe.Country of Residence') }}</label>
-                                <select class="form-control" name="residence_country" id="residence_country" required>
-                                    <option> - </option>
-                                    @foreach($countries as $country)
-                                        <option value="{{ $country->id }}">{{ $country->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+{{--                            <div class="form-group text-right" id="residence_country_label">--}}
+{{--                                <label for="residence_country">{{ __('resubscribe.Country of Residence') }}</label>--}}
+{{--                                <select class="form-control" name="residence_country" id="residence_country" required>--}}
+{{--                                    <option value="null"> - </option>--}}
+{{--                                    @foreach($countries as $country)--}}
+{{--                                        <option value="{{ $country->id }}">{{ $country->name }}</option>--}}
+{{--                                    @endforeach--}}
+{{--                                </select>--}}
+{{--                            </div>--}}
 
                             <div class="form-group text-right">
                                 <label for="std-email">{{ __('resubscribe.Email') }}</label>
@@ -685,34 +586,29 @@
                                 <input type="email" class="form-control" id="std-email-conf" placeholder="{{ __('resubscribe.Confirm Email') }}" required>
                             </div>
 
-                            <div class="form-group text-right d-none" id="discount-reason-image-div">
-                                <label for="discount-reason-image">{{ __('Discount Reason Image') }}</label>
-                                <input type="file" name="discount_reason_image" class="form-control h-100" id="discount-reason-image">
-                            </div>
+{{--                            <div id="favorite_times_male" class="d-none">--}}
+{{--                                <label for="std-email-conf" class="text-right w-100 label-right">{{ __('Choose your preferred schedule') }}</label>--}}
+{{--                                @foreach($favorite_times_male as $key => $favorite_time)--}}
+{{--                                    <div class="form-group text-right">--}}
+{{--                                        <input class="form-check-input input-time" type="radio" name="favorite_time" id="{{ $favorite_time->title . $key }}" value="{{ $favorite_time->title }}" required>--}}
+{{--                                        <label class="form-check-label label-time" for="{{ $favorite_time->title . $key }}">--}}
+{{--                                            {{ $favorite_time->title }}--}}
+{{--                                        </label>--}}
+{{--                                    </div>--}}
+{{--                                @endforeach--}}
+{{--                            </div>--}}
 
-                            <div id="favorite_times_male" class="d-none">
-                                <label for="std-email-conf" class="text-right w-100 label-right">{{ __('Choose your preferred schedule') }}</label>
-                                @foreach($favorite_times_male as $key => $favorite_time)
-                                    <div class="form-group text-right">
-                                        <input class="form-check-input input-time" type="radio" name="favorite_time" id="{{ $favorite_time->title . $key }}" value="{{ $favorite_time->title }}" required>
-                                        <label class="form-check-label label-time" for="{{ $favorite_time->title . $key }}">
-                                            {{ $favorite_time->title }}
-                                        </label>
-                                    </div>
-                                @endforeach
-                            </div>
-
-                            <div id="favorite_times_female" class="d-none">
-                                <label for="std-email-conf" class="text-right w-100 label-right">{{ __('Choose your preferred schedule') }}</label>
-                                @foreach($favorite_times_female as $key => $favorite_time)
-                                    <div class="form-group text-right">
-                                        <input class="form-check-input input-time" type="radio" name="favorite_time" id="{{ $favorite_time->title . $key }}" value="{{ $favorite_time->title }}" required>
-                                        <label class="form-check-label label-time" for="{{ $favorite_time->title . $key }}">
-                                            {{ $favorite_time->title }}
-                                        </label>
-                                    </div>
-                                @endforeach
-                            </div>
+{{--                            <div id="favorite_times_female" class="d-none">--}}
+{{--                                <label for="std-email-conf" class="text-right w-100 label-right">{{ __('Choose your preferred schedule') }}</label>--}}
+{{--                                @foreach($favorite_times_female as $key => $favorite_time)--}}
+{{--                                    <div class="form-group text-right">--}}
+{{--                                        <input class="form-check-input input-time" type="radio" name="favorite_time" id="{{ $favorite_time->title . $key }}" value="{{ $favorite_time->title }}" required>--}}
+{{--                                        <label class="form-check-label label-time" for="{{ $favorite_time->title . $key }}">--}}
+{{--                                            {{ $favorite_time->title }}--}}
+{{--                                        </label>--}}
+{{--                                    </div>--}}
+{{--                                @endforeach--}}
+{{--                            </div>--}}
 
                         </div>
                         <input type="button" name="next" class="next action-button" value="{{ __('resubscribe.Next') }}" />
@@ -743,16 +639,53 @@
 
                             <div>
                                 <div class="form-check text-right">
-                                    <input class="form-check-input w-auto" type="radio" name="payment_method" data-course-amount="{{ $course->price }}" id="checkout_gateway" value="checkout_gateway">
-                                    <label class="form-check-label mr-4" for="checkout_gateway">
-                                        {!! __('Payment via credit card') !!}
-                                        <span id="amount">{{ $course->price }}</span>$
+                                    <input class="form-check-input w-auto" type="radio" name="payment_method" id="checkout_gateway" value="checkout_gateway">
+                                    <label class="form-check-label mr-4" for="checkout_gateway" id="checkout_gateway_student_course_price">
+{{--                                        {!! __('Payment via credit card', ['amount' => $course->price]) !!}--}}
                                     </label>
-                                    <span id="discount-reason" style="color: #24408e;" class="d-block font-weight-bold mt-3"></span>
                                     <img class="text-center d-block" style="width: 38%;margin: auto;margin-top: 9px;" src="{{ asset('card-icons/cards.png') }}" alt="Cards icons">
                                 </div>
 
                                 <br>
+
+                                <div class="form-check text-right">
+                                    <input class="form-check-input w-auto" type="radio" name="payment_method" id="hsbc" value="hsbc">
+                                    <label class="form-check-label mr-4" for="hsbc" id="hsbc_student_course_price">
+{{--                                        {{ __('HSBC Bank', ['amount' => $course->price]) }}--}}
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div id="hsbc-section-elements" class="d-none text-right">
+                                <br>
+                                <label>
+                                    <strong>{{ __('resubscribe.Registration method') }}</strong>
+                                </label>
+                                
+                                <div class="form-group">
+                                    <label for="money_transfer_image_path">{{ __('resubscribe.Choose the transfer picture') }}</label>
+                                    <input type="file" class="form-control" style="height: 50px" name="money_transfer_image_path" id="money_transfer_image_path">
+                                </div>
+
+                                <div class="form-group text-right">
+                                    <label for="bank_name">{{ __('resubscribe.Bank name') }}</label>
+                                    <input type="text" class="form-control" name="bank_name" id="bank_name" placeholder="{{ __('resubscribe.Bank name') }}">
+                                </div>
+
+                                <div class="form-group text-right">
+                                    <label for="account_owner">{{ __('resubscribe.Account holder name (in English as it appears in the bank)') }}</label>
+                                    <input type="text" class="form-control" name="account_owner" id="account_owner" placeholder="{{ __('resubscribe.Account holder name (in English as it appears in the bank)') }}">
+                                </div>
+
+                                <div class="form-group text-right">
+                                    <label for="transfer_date">{{ __('resubscribe.Transfer date') }}</label>
+                                    <input type="date" class="form-control" name="transfer_date" id="transfer_date">
+                                </div>
+
+                                <div class="form-group text-right">
+                                    <label for="bank_reference_number">{{ __('resubscribe.Operation reference number') }}</label>
+                                    <input type="text" class="form-control" name="bank_reference_number" id="bank_reference_number" placeholder="{{ __('resubscribe.Operation reference number') }}">
+                                </div>
 
                             </div>
 
@@ -765,12 +698,6 @@
                     </fieldset>
 
                     <input type="hidden" name="hidden_apply_coupon" id="hidden_apply_coupon">
-
-                    <button class="btn btn-primary d-none" id="pay-button-full-free" style="width: 40%; margin-bottom: 15px; background-color: #f68b32 !important;font-weight: bold; border: transparent;" disabled>
-                        {{ __('resubscribe.Checkout') }}
-                        <i class="fas fa-spinner fa-spin d-none"></i>
-                    </button>
-
                 </form>
 
                 <form id="payment-form" method="POST" action="https://merchant.com/charge-card" class="d-none">
@@ -831,7 +758,7 @@
 
 <!-- add frames script -->
 <script src="https://cdn.checkout.com/js/framesv2.min.js"></script>
-<script src="{{ asset('app.js') }}?v=75.11"></script>
+<script src="{{ asset('app.js') }}?v=2022.6"></script>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
@@ -927,11 +854,7 @@
 
         $(".submit").click(function(){
             return false;
-        });
-
-        $(document).on('click', 'form #pay-button-full-free', function (e) {
-            $('#pay-button-full-free .fa-spinner').removeClass('d-none');
-        });
+        })
 
         $(document).on('click', 'form #apply_coupon_btn', function (e) {
             $('#hidden_apply_coupon').val($('form #apply_coupon').val());
@@ -940,26 +863,9 @@
                 dataType: "json",
                 url: '{{ route('apply.coupon') }}?std_number=' + $('form #std-number').val() + '&code=' + $('form #apply_coupon').val(),
                 success: function (data) {
-
-                    if(data.price_after_discount == 0){
-                        $('.card-frame').addClass('d-none');
-                        $('#pay-button').addClass('d-none');
-                        $('#pay-button-full-free').removeClass('d-none');
-                        $('#pay-button-full-free').attr('disabled', false);
-                    }else{
-                        $('.card-frame').removeClass('d-none');
-                        $('#pay-button').removeClass('d-none');
-                        $('#pay-button-full-free').addClass('d-none');
-                        $('#pay-button-full-free').attr('disabled', true);
-                    }
                     $('#coupon-description').html("{{ __('resubscribe.discount total is') }}" + data.discount + "$ " + "{{ __('resubscribe.and price after discount is') }}" + data.price_after_discount + "$ ");
-
                 },
                 error: function (data){
-                    $('.card-frame').removeClass('d-none');
-                    $('#pay-button').removeClass('d-none');
-                    $('#pay-button-full-free').addClass('d-none');
-                    $('#pay-button-full-free').attr('disabled', true);
                     $('#coupon-description').html(data.responseJSON.msg);
                 }
             });
@@ -972,46 +878,15 @@
                 url: '{{ route('semester.registration.getStudentInfo') }}?std_number=' + $('form #std-number').val() + '&std_section=' + $('form #std-section').val() + '&form_type=one_to_one',
                 success: function (data) {
                     $('form #std-name').val(data.name);
-
-                    $('form #amount').html(data.amount);
-
-                    $('#checkout_gateway').attr('data-course-amount', data.amount);
-
-                    $('#checkout_gateway').prop('checked', false);
-
-                    if(data.amount != 0){
-                        $('.card-frame').removeClass('d-none');
-                        $('#pay-button').removeClass('d-none');
-                        $('#pay-button-full-free').addClass('d-none');
-                        $('#pay-button-full-free').attr('disabled', true);
-                    }
-
-                    if(data.discount_reason){
-                        $('form #discount-reason').html('سبب الخصم/ ' + data.discount_reason);
-                    }else{
-                        $('form #discount-reason').html('');
-                    }
-
-                    if(data.discount_reason == 'كفالة'){
-                        $('#discount-reason-image-div').removeClass('d-none');
-                        $('#discount-reason-image').prop('required', true);
-                    }else{
-                        $('#discount-reason-image-div').addClass('d-none');
-                        $('#discount-reason-image').prop('required', false);
-                    }
-
                     $('form #std-name').css('border-color', 'green');
                     $('form #std-name-section .alert').addClass('d-none');
+
+                    // here
+                    $('#checkout_gateway_student_course_price').html(data.checkout_gateway_price);
+                    $('#hsbc_student_course_price').html(data.hsbc_price);
                 },
                 error: function (data){
                     $('form #std-name').val('');
-
-                    $('form #amount').html('-');
-                    $('form #discount-reason').html('');
-
-                    $('#discount-reason-image-div').addClass('d-none');
-                    $('#discount-reason-image').prop('required', false);
-
                     $('form #std-name').attr("placeholder", data.responseJSON.msg);
                     $('form #std-name').attr("title", data.responseJSON.msg);
                     $('form #std-name').css('border-color', 'red');
@@ -1021,25 +896,34 @@
             });
         });
 
+        $(document).on('click', 'form #hsbc', function (e) {
+
+            if($('#agree-terms').is(':checked')){
+                $("#hsbc-section-elements").removeClass('d-none');
+                $("#hsbc-section-elements").show();
+                $("#hsbc-section-elements input").prop('required',true);
+
+                $("#payment-form").addClass('d-none');
+
+                $("#submit-main-form").removeAttr('disabled');
+                $("#submit-main-form").removeClass('btn-secondary');
+                $("#submit-main-form").addClass('btn-primary');
+                $("#submit-main-form").removeClass('d-none');
+            }else{
+                e.preventDefault();
+                alert('{{ __('You must agree that the previous information is correct') }}');
+            }
+        });
+
         $(document).on('click', 'form #checkout_gateway', function (e) {
 
             if($('#agree-terms').is(':checked')){
+                $("#hsbc-section-elements").addClass('d-none');
+                $("#hsbc-section-elements").hide();
+                $("#hsbc-section-elements input").removeAttr('required');
+
                 $("#payment-form").removeClass('d-none');
                 $("#submit-main-form").addClass('d-none');
-
-                let amount = $('#checkout_gateway').attr('data-course-amount');
-
-                if(amount == 0){
-                    $('.card-frame').addClass('d-none');
-                    $('#pay-button').addClass('d-none');
-                    $('#pay-button-full-free').removeClass('d-none');
-                    $('#pay-button-full-free').attr('disabled', false);
-                }else{
-                    $('.card-frame').removeClass('d-none');
-                    $('#pay-button').removeClass('d-none');
-                    $('#pay-button-full-free').addClass('d-none');
-                    $('#pay-button-full-free').attr('disabled', true);
-                }
 
             }else{
                 e.preventDefault();
@@ -1051,6 +935,7 @@
         function validate(current_fs) {
             let inputs = current_fs.find("input[required]");
             let radioBoxes = current_fs.find('input[type=radio]');
+            // let residence_country = current_fs.find('#residence_country').val();
 
             flag = true;
 
@@ -1102,6 +987,16 @@
 
             }
 
+            {{--if(residence_country == 'null'){--}}
+            {{--    $('#residence_country_label .error-msg-times').remove();--}}
+            {{--    $('#residence_country_label').prepend(`<div class="alert alert-danger error-msg-times text-right" role="alert">--}}
+            {{--                                      {{ __('You must choose your residence country') }}--}}
+            {{--    </div>`);--}}
+            {{--    flag = false;--}}
+            {{--}else{--}}
+            {{--    $('#residence_country_label .error-msg-times').remove();--}}
+            {{--}--}}
+
             return flag;
         }
 
@@ -1114,19 +1009,19 @@
         $(document).on('change', '#std-section', function (e) {
             $('form#msform input[type=radio]').prop('checked', false);
 
-            if ($(this).val() == "1") {
-                $('#favorite_times_male').removeClass('d-none');
-                $('#favorite_times_male').addClass('d-block');
-                $('#favorite_times_female').removeClass('d-block');
-                $('#favorite_times_female').addClass('d-none');
-            }
-
-            if ($(this).val() == "2") {
-                $('#favorite_times_female').removeClass('d-none');
-                $('#favorite_times_female').addClass('d-block');
-                $('#favorite_times_male').removeClass('d-block');
-                $('#favorite_times_male').addClass('d-none');
-            }
+            // if ($(this).val() == "1") {
+            //     $('#favorite_times_male').removeClass('d-none');
+            //     $('#favorite_times_male').addClass('d-block');
+            //     $('#favorite_times_female').removeClass('d-block');
+            //     $('#favorite_times_female').addClass('d-none');
+            // }
+            //
+            // if ($(this).val() == "2") {
+            //     $('#favorite_times_female').removeClass('d-none');
+            //     $('#favorite_times_female').addClass('d-block');
+            //     $('#favorite_times_male').removeClass('d-block');
+            //     $('#favorite_times_male').addClass('d-none');
+            // }
         });
 
         if (navigator.cookieEnabled == false) {

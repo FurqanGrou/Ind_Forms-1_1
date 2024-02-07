@@ -3,20 +3,15 @@
 namespace App\Imports;
 
 use App\Models\Coupon;
-use App\Models\CouponStudent;
-use App\Models\Course;
-use App\Models\Student;
 use Carbon\Carbon;
-use Illuminate\Support\Collection;
-use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithBatchInserts;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
 class CouponImport implements ToModel, WithHeadingRow, WithChunkReading, WithBatchInserts
-
 {
+
     /**
      * @param array $row
      *
@@ -25,40 +20,24 @@ class CouponImport implements ToModel, WithHeadingRow, WithChunkReading, WithBat
     public function model(array $row)
     {
 
-        $serial_number = trim($row['serial_number']);
-        $section = trim($row['section']) == 'بنين' ? '1' : '2';
-        $value   = trim($row['value']);
-        $code    = trim($row['code']);
+        $code  = trim($row['code']);
+        $value = trim($row['value']);
 
-        $course = Course::query()->where('code', '=', 'regular')->first();
-        $student = Student::query()
-            ->where('serial_number', '=', $serial_number)
-            ->where('section', '=', $section)
-            ->first();
-
-        if(!empty($serial_number) && !empty($section) && !empty($value) && !empty($code) && $student){
-
-//            $coupon = Coupon::query()->updateOrCreate([
-//                    'course_id' => $course->id,
-//                    'code' => $code,
-//                ],
-//                [
-//                    'type' => 'fixed',
-//                    'value' => $value*100,
-//                    'usage_limit' => 1,
-//                    'start_date' => Carbon::now('Asia/Riyadh')->toDate(),
-//                    'end_date' => '2023-04-11 00:00:00',
-//                    'active' => 1,
-//                    'limit_user' => 1,
-//                    'specific_users' => 1,
-//                ]);
-//
-//            CouponStudent::create([
-//                'student_id' => $student->id,
-//                'coupon_id'  => $coupon->id,
-//            ]);
-
+        if(!empty($code) && !empty($value)) {
+            Coupon::create([
+                'code' => $code,
+                'type' => 'fixed',
+                'value' => $value,
+                'usage_limit' => 1,
+                'start_date' => Carbon::now('Asia/Riyadh')->toDate(),
+                'end_date' => '2022-06-01 00:00:00',
+                'active' => 1,
+                'limit_user' => 1,
+                'specific_users' => 0,
+                'course_id' => 2,
+            ]);
         }
+
     }
 
     public function batchSize(): int
@@ -70,4 +49,5 @@ class CouponImport implements ToModel, WithHeadingRow, WithChunkReading, WithBat
     {
         return 300;
     }
+
 }

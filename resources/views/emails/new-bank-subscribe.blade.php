@@ -26,7 +26,7 @@
 <div style="border: 2px solid black; width: 70%; margin: 0 auto;">
     <div style="text-align: center;font-family: arial, sans-serif">
         <img src="{{ public_path('dashboard\assets\img\logo2.png') }}" alt="">
-        <h1> تسجيل للفصل الثاني 1443 - فردي </h1>
+        <h1>{{ __('Second semester 2022 - one to one') }}</h1>
     </div>
 
     <div>

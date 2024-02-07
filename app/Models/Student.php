@@ -21,15 +21,4 @@ class Student extends Model
         return $this->belongsToMany(Coupon::class, 'coupon_student');
     }
 
-    public function customPrice()
-    {
-        return $this->hasOne(CustomPrice::class)->where('status', '=', '1');
-    }
-
-    public function allCustomPrice()
-    {
-        return $this->hasOne(CustomPrice::class);
-    }
-
-
 }

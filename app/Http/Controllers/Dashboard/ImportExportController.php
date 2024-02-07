@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use App\Exports\UnsubscribedStudentsExport;
 use App\Http\Controllers\Controller;
 use App\Imports\CouponImport;
 use App\Imports\StudentImport;
@@ -19,9 +18,9 @@ class ImportExportController extends Controller
 
     public function importCoupons()
     {
-        Excel::import(new CouponImport(), 'new-2023-coupons.xlsx');
+        Excel::import(new CouponImport(), 'coupons.xlsx');
 
-        dd('Coupons Imported Successfully!');
+        dd('Done');
 //        return back()->withSuccess('تم تحديث بيانات الطلاب بنجاح');
     }
 
@@ -31,11 +30,7 @@ class ImportExportController extends Controller
             return back()->withError('يجب عليك إرفاق الملف المطلوب');
         }
 
-        if ($request->section == '0'){
-            return back()->withError('يجب عليك تحديد القسم المطلوب');
-        }
-
-        Excel::import(new StudentImport($request->section), $request->file_path);
+        Excel::import(new StudentImport(), $request->file_path);
 
         return back()->withSuccess('تم تحديث بيانات الطلاب بنجاح');
     }
@@ -45,13 +40,4 @@ class ImportExportController extends Controller
         return view('dashboard.import-export.students');
     }
 
-    public function unsubscribedStudents()
-    {
-        return view('dashboard.import-export.unsubscribed-students');
-    }
-
-    public function exportUnsubscribedStudents(Request $request)
-    {
-        return Excel::download(new UnsubscribedStudentsExport($request->from, $request->to), 'unsubscribed-students.xlsx');
-    }
 }

@@ -21,8 +21,10 @@ class HomeController extends Controller
                                     ->whereMonth('created_at', '=', $today->month)
                                     ->whereDay('created_at', '=', $today->day)
                                     ->whereYear('created_at', '=', $today->year)
-                                    ->whereIn('payment_status', ['Captured', 'Authorized'])
-                                    ->count();
+                                    ->where(function ($query){
+                                        $query->whereIn('payment_status', ['Captured', 'Authorized'])
+                                            ->orWhere('payment_method', '=', 'hsbc');
+                                    })->count();
 
         $statistics['today_subscribed_fail'] = Subscribe::query()
                                     ->whereMonth('created_at', '=', $today->month)
@@ -31,7 +33,11 @@ class HomeController extends Controller
                                     ->whereNotIn('payment_status', ['Captured', 'Authorized'])
                                     ->count();
 
-        $statistics['last_try_subscription'] = Subscribe::query()->orderBy('updated_at', 'DESC')->first()->updated_at->timezone('Asia/Riyadh')->diffForHumans();
+        if(Subscribe::query()->orderBy('updated_at', 'DESC')->first()){
+            $statistics['last_try_subscription'] = Subscribe::query()->orderBy('updated_at', 'DESC')->first()->updated_at->timezone('Asia/Riyadh')->diffForHumans();
+        }else{
+            $statistics['last_try_subscription'] = 0;
+        }
 
         return view('dashboard.index', compact('statistics'));
     }

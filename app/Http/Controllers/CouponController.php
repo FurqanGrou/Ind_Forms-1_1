@@ -23,12 +23,12 @@ class CouponController extends Controller
 
         Session::put('student_id', $student->id);
 
-        $course = Course::query()->where('code', 'one_to_one')->first();
+        $course = Course::query()->where('code', 'fourth_to_fourth')->first();
         $coupon = Coupon::where('code', $code)->where('course_id', $course->id)->first();
 
         if (@$coupon->is_valid){
-            $discount    = $coupon->getDiscount($course->amount)/100;
-            $base_amount = $course->amount/100;
+            $discount    = $coupon->getDiscount($student->payment_amount)/100;
+            $base_amount = $student->payment_amount/100;
             return response()->json(['discount' => $discount, 'base_amount' => $base_amount, 'price_after_discount' => ($base_amount - $discount)], 200, [], JSON_UNESCAPED_UNICODE);
         }
 

@@ -52,6 +52,7 @@ Route::group(['middleware' => [ 'web' => 'auth:admin' ], 'as' => 'dashboard.'], 
     Route::delete('/coupons/destroy/{id}', [CouponController::class, 'destroy'])->name('coupons.destroy');
     Route::get('/coupons/create', [CouponController::class, 'create'])->name('coupons.create');
 
+    // import students into students table
     Route::get('/importStudents', [ImportExportController::class, 'showImportStudents'])->name('import.students.show');
     Route::post('/importStudents', [ImportExportController::class, 'importStudents'])->name('import.students.store');
 
@@ -69,8 +70,4 @@ Route::group(['middleware' => [ 'web' => 'auth:admin' ], 'as' => 'dashboard.'], 
 
     Route::get('/importCoupons', [ImportExportController::class, 'importCoupons'])->name('import.coupons.show');
 
-    Route::get('/students-names', [CouponController::class, 'getStudentsNames'])->name('students.names');
-
-    Route::get('/export-unsubscribed-students', [ImportExportController::class, 'unsubscribedStudents'])->name('export.unsubscribed.students');
-    Route::post('/export-unsubscribed-students', [ImportExportController::class, 'exportUnsubscribedStudents'])->name('export.unsubscribed.students.store');
 });

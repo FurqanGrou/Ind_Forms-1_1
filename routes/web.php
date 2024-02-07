@@ -28,27 +28,27 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => [ 'l
     // get student info
     Route::get('/semester-registration/get-student-info', [SemesterRegistrationController::class, 'getStudentInfo'])->name('semester.registration.getStudentInfo');
 
-    // import files to database
-//    Route::get('/importCountries', [ImportController::class, 'importCountries']);
-
     // apply coupon
     Route::get('/apply-coupon', [CouponController::class, 'applyCoupon'])->name('apply.coupon');
 
     Route::get('/thank-you', [SemesterRegistrationController::class, 'thankYouPage'])->name('semester.thankYouPage');
 });
 
-Route::get('/clear-cache', function (\App\Services\GoogleSheet $googleSheet){
-    \Artisan::call('optimize:clear');
-    echo "Done";
-});
-
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('test', function (){
-    $role = \Spatie\Permission\Models\Role::create(['name' => 'writer']);
-    $permission = \Spatie\Permission\Models\Permission::create(['name' => 'edit articles']);
-    $permission->assignRole($role);
-
+Route::get('symlink1', function(){
+    $targetFolder =  '/home/reports/custom_prices_students/storage/app/public';
+    $linkFolder   =  '/home/reports/public_html/pay-installments-students/storage';
+    symlink($targetFolder, $linkFolder);
+    echo 'Symlink process successfully completed';
 });
+
+
+//Route::get('/clear-cache', function (\App\Services\GoogleSheet $googleSheet){
+//    \Artisan::call('optimize:clear');
+//    echo "Done";
+//});
+
+

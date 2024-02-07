@@ -75,9 +75,9 @@
                 <div class="col-md-4">
                     <div class="form-group" id="specific_users_group">
                         <label for="specific_users">تخصيص طلاب</label>
-                        <select name="specific_users[]" id="specific_users" class="form-control students-data-ajax" multiple="multiple">
+                        <select name="specific_users[]" id="specific_users" class="form-control" multiple="multiple">
                             @foreach($users as $user)
-{{--                                <option value="{{ $user->id }}">{{ $user->name }}</option>--}}
+                                <option value="{{ $user->id }}">{{ $user->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -116,36 +116,3 @@
     </form>
 
 @endsection
-
-@push('js')
-<script>
-
-    $(document).ready(function(){
-
-        $( ".students-data-ajax" ).select2({
-            ajax: {
-                url: "{{route('dashboard.students.names')}}",
-                dataType: 'json',
-                delay: 250,
-                data: function (params) {
-                    return {
-                        q: params.term // search term
-                    };
-                },
-                processResults: function (response) {
-                    return {
-                        results: response
-                    };
-                },
-                cache: true
-            },
-
-            placeholder: 'ابحث باستخدام اسم الطالب/ة',
-            minimumInputLength: 2,
-
-        });
-
-    });
-
-</script>
-@endpush

@@ -27,36 +27,20 @@ class Subscribe extends Model
         return $this->belongsTo(Country::class);
     }
 
-    public function customPrice()
-    {
-        return $this->belongsTo(CustomPrice::class, 'custom_price_id');
-    }
-
     public static function booted()
     {
         static::created(function($subscribe) {
             $created_at = Carbon::parse($subscribe->created_at)->timezone('Asia/Riyadh')->format('Y-m-d H:i:s');
             $created_at_formatted = Carbon::parse($subscribe->created_at)->timezone('Asia/Riyadh')->format('Y-m-d');
 
+//            $course = Course::query()->where('code', '=', 'fourth_to_fourth')->first();
+            $price     = $subscribe->student->payment_amount - ($subscribe->discount_value / 100);
+            $net_price = $subscribe->student->payment_amount - ($subscribe->discount_value / 100) - 25;
+
             $image_path = '-';
-
-            $discount_reason_image = '-';
-            if ($subscribe->discount_reason_image) {
-                $discount_reason_image = url(Storage::url($subscribe->discount_reason_image));
+            if($subscribe->money_transfer_image_path){
+                $image_path = url(Storage::url($subscribe->money_transfer_image_path));
             }
-
-            $course = Course::query()->where('code', '=', 'one_to_one')->first();
-
-            if (@$subscribe->customPrice->discount_value){
-                $discount_value = ($subscribe->discount_value/100) + $subscribe->customPrice->discount_value;
-            }elseif (@$subscribe->customPrice->discount_percent){
-                $discount_value = ($subscribe->discount_value/100) + ($course->price* ($subscribe->customPrice->discount_percent/100) );
-            }else{
-                $discount_value = ($subscribe->discount_value/100);
-            }
-
-            $price = $course->price - $discount_value;
-            $net_price = $course->price - ($discount_value / 100) - 45;
 
             $googleSheet = new GoogleSheet();
             $values = [
@@ -64,23 +48,25 @@ class Subscribe extends Model
                     $created_at  ?? '-', $subscribe->reference_number  ?? '-', $created_at_formatted ?? '-',
                     'أقرّ باطلاعي نظام التعليم عن بعد الخاص بالمركز.', 'نعم',
                     $subscribe->student->section == 1 ? 'بنين' : 'بنات', $subscribe->student->serial_number ?? '-',
-                    $subscribe->student->name ?? '-', $subscribe->country->name, $subscribe->email,
+                    $subscribe->student->name ?? '-',
+//                    $subscribe->country->name,
+                    $subscribe->email,
                     $image_path ?? '-', $subscribe->bank_name ?? '-', $subscribe->account_owner ?? '-',
                     $subscribe->transfer_date ?? '-', $subscribe->bank_reference_number ?? '-', $subscribe->payment_method ?? '-',
-                    $subscribe->payment_id ?? '-', $subscribe->payment_status ?? '-', $subscribe->response_code ?? '-', $subscribe->coupon_code ?? '-',
-                    ($subscribe->discount_value/100) ?? '0.0',
-                    $subscribe->student->client_zoho_id ?? '-', $course->price ?? '-', $price ?? '-', $net_price ?? '-',
-
-                    $subscribe->customPrice->discount_value ?? '-', $subscribe->customPrice->discount_percent ?? '-',
-                    $subscribe->customPrice->discount_reason ?? '-', $discount_reason_image ?? '-',
-                    $subscribe->favorite_time ?? '-'
-
+                    $subscribe->payment_id ?? '-', $subscribe->payment_status ?? '-', $subscribe->response_code ?? '-',
+                    $subscribe->coupon_code ?? '-', ($subscribe->discount_value/100) ?? '0.0',
+//                    $subscribe->favorite_time ?? '-',
+                    $subscribe->student->client_zoho_id ?? '-', $price, $net_price
                 ],
             ];
 
             $googleSheet->saveDataToSheet($values);
 
             if ($subscribe->payment_method == 'checkout_gateway' && is_numeric($subscribe->response_code) && in_array($subscribe->payment_status, ['Captured', 'Authorized']) ){
+                Notification::route('mail', [$subscribe->email])->notify(new SubscribeNotification($subscribe));
+            }
+
+            if ($subscribe->payment_method == 'hsbc'){
                 Notification::route('mail', [$subscribe->email])->notify(new SubscribeNotification($subscribe));
             }
 
@@ -91,43 +77,30 @@ class Subscribe extends Model
                 $created_at = Carbon::parse($subscribe->created_at)->timezone('Asia/Riyadh')->format('Y-m-d H:i:s');
                 $created_at_formatted = Carbon::parse($subscribe->created_at)->timezone('Asia/Riyadh')->format('Y-m-d');
 
+                $price = $subscribe->student->payment_amount - ($subscribe->discount_value / 100);
+                $net_price = $subscribe->student->payment_amount - ($subscribe->discount_value / 100) - 25;
+
                 $image_path = '-';
-
-                $discount_reason_image = '-';
-                if ($subscribe->discount_reason_image) {
-                    $discount_reason_image = url(Storage::url($subscribe->discount_reason_image));
+                if($subscribe->money_transfer_image_path){
+                    $image_path = url(Storage::url($subscribe->money_transfer_image_path));
                 }
-
-                $course = Course::query()->where('code', '=', 'one_to_one')->first();
-
-                if (@$subscribe->customPrice->discount_value){
-                    $discount_value = ($subscribe->discount_value/100) + $subscribe->customPrice->discount_value;
-                }elseif (@$subscribe->customPrice->discount_percent){
-                    $discount_value = ($subscribe->discount_value/100) + ($course->price* ($subscribe->customPrice->discount_percent/100) );
-                }else{
-                    $discount_value = ($subscribe->discount_value/100);
-                }
-
-                $price = $course->price - $discount_value;
-                $net_price = $course->price - ($discount_value / 100) - 45;
 
                 $googleSheet = new GoogleSheet();
                 $values = [
                     [
+
                         $created_at  ?? '-', $subscribe->reference_number  ?? '-', $created_at_formatted ?? '-',
                         'أقرّ باطلاعي نظام التعليم عن بعد الخاص بالمركز.', 'نعم',
                         $subscribe->student->section == 1 ? 'بنين' : 'بنات', $subscribe->student->serial_number ?? '-',
-                        $subscribe->student->name ?? '-', $subscribe->country->name, $subscribe->email,
+                        $subscribe->student->name ?? '-',
+//                        $subscribe->country->name,
+                        $subscribe->email,
                         $image_path, $subscribe->bank_name ?? '-', $subscribe->account_owner ?? '-',
                         $subscribe->transfer_date ?? '-', $subscribe->bank_reference_number ?? '-', $subscribe->payment_method ?? '-',
                         $subscribe->payment_id ?? '-', $subscribe->payment_status ?? '-', $subscribe->response_code ?? '-', $subscribe->coupon_code ?? '-',
                         ($subscribe->discount_value/100) ?? '0.0',
-                        $subscribe->student->client_zoho_id ?? '-',$course->price ?? '-' ,$price ?? '-', $net_price ?? '-',
-
-                        $subscribe->customPrice->discount_value ?? '-', $subscribe->customPrice->discount_percent ?? '-',
-                        $subscribe->customPrice->discount_reason ?? '-', $discount_reason_image ?? '-',
-                        $subscribe->favorite_time ?? '-'
-
+//                        $subscribe->favorite_time ?? '-',
+                        $subscribe->student->client_zoho_id ?? '-', $price, $net_price
                     ],
                 ];
 

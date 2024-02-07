@@ -43,14 +43,14 @@ class SubscribeNotification extends Notification
     {
         if ($this->details->payment_method == 'hsbc'){
             return (new MailMessage())
-                ->from('Furqan@furqanreports.info')
+                ->from('no-reply@furqanreport.com')
                 ->subject('عملية اشتراك جديدة - ' . $this->details->student->name)
                 ->view('emails.new-bank-subscribe', ['details' => $this->details]);
         }
 
         if ($this->details->payment_method == 'checkout_gateway' && is_numeric($this->details->response_code) && in_array($this->details->payment_status, ['Captured', 'Authorized']) ){
             return (new MailMessage())
-                ->from('Furqan@furqanreports.info')
+                ->from('no-reply@furqanreport.com')
                 ->subject('عملية اشتراك جديدة - ' . $this->details->student->name)
                 ->view('emails.new-card-subscribe', ['details' => $this->details]);
         }

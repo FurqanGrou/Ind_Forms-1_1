@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Models\Country;
-use App\Models\Coupon;
 use App\Models\Course;
 use App\Models\FavoriteTime;
 use App\Models\Student;
@@ -37,7 +35,7 @@ class SemesterRegistrationController extends Controller
         $countries = Country::query()->where('lang', '=', App::getLocale())->get();
         $favorite_times_male = FavoriteTime::query()->where('section',  '=', 'male')->get();
         $favorite_times_female = FavoriteTime::query()->where('section',  '=', 'female')->get();
-        $course = Course::query()->where('code',  '=', 'one_to_one')->first();
+        $course = Course::query()->where('code',  '=', 'fourth_to_fourth')->first();
 
         return view('one-to-one', ['countries' => $countries, 'favorite_times_male' => $favorite_times_male , 'favorite_times_female' => $favorite_times_female, 'course' => $course]);
     }
@@ -69,17 +67,6 @@ class SemesterRegistrationController extends Controller
                     ]);
 
                     if ($data->approved){
-                        $coupon = Coupon::find($subscribe->coupon_id);
-                        if ($coupon && @$coupon->is_valid){
-                            $coupon->use($subscribe->student_id);
-                        }
-
-                        if ($subscribe->student->customPrice){
-                            $subscribe->student->customPrice->update([
-                                'status' => '0',
-                            ]);
-                        }
-
                         session()->flash('success', __('resubscribe.The registration process has been completed successfully'));
                     }else{
                         session()->flash('error', __('resubscribe.Payment failed'));
@@ -89,6 +76,7 @@ class SemesterRegistrationController extends Controller
                     session()->flash('error', __('resubscribe.Payment failed'));
                 }
             }catch (\GuzzleHttp\Exception\ClientException $e) {
+//                $response = $e->getResponse();
                 session()->flash('error', __('resubscribe.Payment failed'));
             }
         }
@@ -96,53 +84,7 @@ class SemesterRegistrationController extends Controller
         $countries = Country::query()->where('lang', '=', App::getLocale())->get();
         $favorite_times_male = FavoriteTime::query()->where('section',  '=', 'male')->get();
         $favorite_times_female = FavoriteTime::query()->where('section',  '=', 'female')->get();
-        $course = Course::query()->where('code',  '=', 'one_to_one')->first();
-
-        if (session()->get('subscribe_id')){
-
-            $subscribe_id = session()->get('subscribe_id');
-
-            $subscribe = Subscribe::query()
-                ->where('id', '=', $subscribe_id)
-                ->first();
-
-            $coupon = Coupon::find($subscribe->coupon_id);
-            if ($coupon && @$coupon->is_valid){
-
-                if ($coupon && @$coupon->is_valid){
-                    $coupon->use($subscribe->student_id);
-                }
-
-                if($subscribe->student->customPrice) {
-                    $subscribe->student->customPrice->update([
-                        'status' => '0',
-                    ]);
-                }
-
-                $result = $subscribe->update([
-                    'payment_status' => 'Captured',
-                    'response_code' => '-',
-                ]);
-
-                session()->forget('subscribe_id');
-
-                return view('thank-you', ['countries' => $countries, 'course' => $course]);
-            }else{
-                if($subscribe->student->customPrice){
-                    $subscribe->student->customPrice->update([
-                        'status' => '0',
-                    ]);
-
-                    $result = $subscribe->update([
-                        'payment_status' => 'Captured',
-                        'response_code' => '-',
-                    ]);
-
-                    session()->forget('subscribe_id');
-                }
-            }
-
-        }
+        $course = Course::query()->where('code',  '=', 'fourth_to_fourth')->first();
 
         if (! (session('error') || session('success')) ) {
             return redirect()->route('semester.indexOneToOne');
@@ -158,29 +100,17 @@ class SemesterRegistrationController extends Controller
             ->where('section', '=', \request()->std_section)
             ->first();
 
-        if (\request()->query('form_type') == 'one_to_one' && $student){
-            if ($student->path != 'حفظ'){
-                return response()->json(['msg' => __('one_to_one.Sorry just')], 500);
-            }
-        }
+//        if (\request()->query('form_type') == 'one_to_one' && $student){
+//            if ($student->path != 'حفظ'){
+//                return response()->json(['msg' => __('Sorry just')], 500);
+//            }
+//        }
 
         if ($student){
-            $amount = Course::query()->where('code', 'one_to_one')->first()->amount;
-            $discount_reason = false;
+            $checkout_gateway_price = __('Payment via credit card', ['amount' => $student->payment_amount/100]);
+            $hsbc_price = __('Payment via credit card', ['amount' => $student->payment_amount/100]);
 
-            if ($student->customPrice){
-
-                if (!empty($student->customPrice->discount_value)){
-                    $amount = $amount - ($student->customPrice->discount_value*100);
-                    $discount_reason = $student->customPrice->discount_reason;
-                }elseif(!empty($student->customPrice->discount_percent)){
-                    $amount = $amount - ( $amount * ($student->customPrice->discount_percent/100) );
-                    $discount_reason = $student->customPrice->discount_reason;
-                }
-
-            }
-
-            return response()->json(['name' => $student->name, 'amount' => $amount/100, 'discount_reason' => $discount_reason], 200, [], JSON_UNESCAPED_UNICODE);
+            return response()->json(['name' => $student->name, 'checkout_gateway_price' => $checkout_gateway_price, 'hsbc_price' => $hsbc_price], 200, [], JSON_UNESCAPED_UNICODE);
         }
 
         return response()->json(['msg' => __('resubscribe.serial number is incorrect')], 404);

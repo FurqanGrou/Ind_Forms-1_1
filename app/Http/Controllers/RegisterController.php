@@ -74,18 +74,23 @@ class RegisterController extends Controller
             'student_number' => 'required|numeric',
             'section'        => 'required|numeric',
             'student_name'   => 'required|string',
-            'residence_country' => 'required|exists:countries,id',
             'email' => 'required|email',
-            'favorite_time' => 'required',
+//            'residence_country' => 'required|exists:countries,id',
+//            'favorite_time' => 'required',
         ]);
 
         if ($request->payment_method == 'hsbc'){
             $request->validate([
                 'money_transfer_image_path' => 'required',
+//                'money_transfer_image_path' => 'required|mimes:jpeg,jpg,bmp,gif,svg,webp,png,pdf,doc,docx',
                 'bank_name'     => 'required|string',
                 'account_owner' => 'required|string',
                 'transfer_date' => 'required|date',
                 'bank_reference_number' => 'required|string',
+            ]);
+        }else{
+            $request->validate([
+                'token_pay' => 'required|string',
             ]);
         }
 
@@ -99,99 +104,79 @@ class RegisterController extends Controller
             return redirect()->route('semester.indexOneToOne');
         }
 
-        if ($student->path != 'حفظ'){
-            session()->flash('error', __('one_to_one.Sorry just'));
-            return redirect()->route('semester.indexOneToOne');
-        }
-
+//        if ($student->path != 'حفظ'){
+//            session()->flash('error', __('Sorry just'));
+//            return redirect()->route('semester.indexOneToOne');
+//        }
 
         Session::put('student_id', $student->id);
-        $course = Course::query()->where('code', 'one_to_one')->first();
-        $amount = $course->amount;
-
-        $have_discount = false;
-        if ($student->customPrice){
-
-            if (!empty($student->customPrice->discount_value)){
-                $amount = $amount - ($student->customPrice->discount_value*100);
-            }elseif(!empty($student->customPrice->discount_percent)){
-                $amount = $amount - ( $amount * ($student->customPrice->discount_percent/100) );
-            }
-
-            $have_discount = true;
-        }
+        $course = Course::query()->where('code', 'fourth_to_fourth')->first();
+        $amount = $student->payment_amount;
 
         if (isset($request->hidden_apply_coupon) && !empty($request->hidden_apply_coupon)){
             $coupon_code = $request->hidden_apply_coupon;
             $coupon = Coupon::where('code', $coupon_code)->where('course_id', $course->id)->first();
 
-            if (@$coupon->is_valid) {
-                $discount = $coupon->getDiscount($course->amount);
-                $base_amount = $course->amount;
-                $amount = $base_amount - $discount;
+            if (@$coupon->is_valid){
+                $discount    = $coupon->getDiscount($student->payment_amount);
+                $base_amount = $student->payment_amount;
+                $amount = ($base_amount - $discount);
+                $coupon->use($student->id);
             }
         }
 
         if ($request->payment_method == 'checkout_gateway') {
 
-            if ($amount != 0){
-                $request->validate([
-                    'token_pay' => 'required|string',
-                ]);
-            }
-
             $customer = ['email' => $request->email, 'name' => $request->student_name];
-
-            if ($amount != 0){
-                $result  = $this->payment($request->token_pay, $customer, $amount);
-            }
+            $result  = $this->payment($request->token_pay, $customer, $amount);
 
             $subscribe = Subscribe::query()->create([
                 'student_id' => $student->id,
-                'country_id' => $request->residence_country,
+//                'country_id' => $request->residence_country,
                 'email' => $request->email,
                 'payment_method' => 'checkout_gateway',
                 'payment_id' => Session::get('payment_id'),
                 'reference_number' => Session::get('reference_number'),
                 'payment_status' => Session::get('payment_status'),
-                'favorite_time' => $request->favorite_time,
+//                'favorite_time' => $request->favorite_time,
                 'form_type' => 'one_to_one',
                 'response_code' => $result->response_code ?? '-',
                 'coupon_id' => $coupon->id ?? null,
                 'discount_value' => $discount ?? 0.00,
                 'coupon_code' => $coupon->code ?? null,
-
-                'custom_price_id' => $have_discount ? $student->customPrice->id : null,
-                'discount_reason_image' => $request->hasFile('discount_reason_image') ? $request->file('discount_reason_image')->store('public/discount_reason_image') : null,
-
             ]);
 
             Session::forget('payment_id');
             Session::forget('payment_status');
             Session::forget('reference_number');
 
-            if ($amount != 0){
-                $redirection = $result->getRedirection();
-                if ($redirection){
-                    return Redirect::to($redirection);
-                }else{
-                    if ($result->approved){
-
-                        if ($coupon && @$coupon->is_valid){
-                            $coupon->use($student->id);
-                        }
-
-                        session()->flash('success', __('resubscribe.The registration process has been completed successfully'));
-                    }else{
-                        session()->flash('error', __('resubscribe.Payment failed!'));
-                    }
-                    return redirect()->route('semester.thankYouPage');
-                }
+            $redirection = $result->getRedirection();
+            if ($redirection){
+                return Redirect::to($redirection);
             }else{
-                session()->flash('success', __('resubscribe.The registration process has been completed successfully'));
-                return redirect()->route('semester.thankYouPage')->with(['subscribe_id' => $subscribe->id]);
+                if ($result->approved){
+                    session()->flash('success', __('resubscribe.The registration process has been completed successfully'));
+                }else{
+                    session()->flash('error', __('resubscribe.Payment failed!'));
+                }
+                return redirect()->route('semester.thankYouPage');
             }
 
+        }else{
+            $subscribe = Subscribe::query()->create([
+                'student_id' => $student->id,
+//                'country_id' => $request->residence_country,
+                'email' => $request->email,
+                'payment_method' => $request->payment_method,
+                'money_transfer_image_path' => $request->file('money_transfer_image_path')->store('public/money_transfer_images'),
+                'bank_name' => $request->bank_name,
+                'account_owner' => $request->account_owner,
+                'transfer_date' => $request->transfer_date,
+                'bank_reference_number' => $request->bank_reference_number,
+//                'favorite_time' => $request->favorite_time,
+                'form_type' => 'one_to_one',
+            ]);
+//            dd($subscribe);
         }
 
         session()->flash('success', __('resubscribe.The registration process has been completed successfully'));

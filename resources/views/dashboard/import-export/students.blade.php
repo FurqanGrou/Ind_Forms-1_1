@@ -34,18 +34,18 @@
                     </div>
                 </div>
 
-                <div class="col-3">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">القسم</span>
-                        </div>
-                        <select name="section" id="section" class="form-control">
-                            <option value="0">اختر قسم</option>
-                            <option value="1">البنين</option>
-                            <option value="2">البنات</option>
-                        </select>
-                    </div>
-                </div>
+{{--                <div class="col-3">--}}
+{{--                    <div class="input-group mb-3">--}}
+{{--                        <div class="input-group-prepend">--}}
+{{--                            <span class="input-group-text" id="basic-addon1">القسم</span>--}}
+{{--                        </div>--}}
+{{--                        <select name="section" id="section" class="form-control">--}}
+{{--                            <option value="0">اختر قسم</option>--}}
+{{--                            <option value="1">البنين</option>--}}
+{{--                            <option value="2">البنات</option>--}}
+{{--                        </select>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
 
             </div>
             </div>

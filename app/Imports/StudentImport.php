@@ -11,33 +11,36 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 class StudentImport implements ToModel, WithHeadingRow, WithChunkReading, WithBatchInserts
 {
 
-    public $section;
-
-    public function __construct($section)
-    {
-        $this->section = $section;
-    }
-
+    /**
+    * @param array $row
+    *
+    * @return \Illuminate\Database\Eloquent\Model|null
+    */
     public function model(array $row)
     {
 
-        $serial_number = trim($row['alrkm_altslsly']);
-        $name    = trim($row['alasm']);
-        $status  = trim($row['odaa_altalb']);
-        $path    = trim($row['almsar']);
-        $client_zoho_id   = trim($row['rkm_alaamlaaa_zoho']);
+        $serial_number = trim($row['rkm_altalb'] ?? null);
+        $name    = trim($row['asm_altalb'] ?? null);
+        $section = trim($row['alksm'] ?? null);
+        $status  = trim($row['hal_altalb'] ?? null);
+        $form_type         = trim($row['noaa_alastmar'] ?? null);
+        $payment_amount    = trim($row['almtbky'] ?? null);
+//        $path    = trim($row['almsar']);
+//        $client_zoho_id    = trim($row['client_zoho_id']);
 
-        if(!is_null($serial_number) && !is_null($name) && !is_null($status) && !is_null($path)){
+        if(!empty($serial_number) && !empty($name) && !empty($status) && !empty($section) && !empty($payment_amount)){
 
             Student::query()->updateOrCreate([
                 'serial_number' => $serial_number,
-                'section' => $this->section,
-            ],
+                'section' => $section == 'بنين' ? '1' : '2',
+                ],
                 [
-                    'name'    => $name,
-                    'status'  => $status == 'منتظم' ? '1' : '0',
-                    'path'    => $path,
-                    'client_zoho_id' => substr($client_zoho_id, 0, -1),
+                'name'    => $name,
+                'status'  => $status == 'منتظم' ? '1' : '0',
+                'form_type'        => $form_type,
+                'payment_amount'   => $payment_amount * 100,
+//                'path'    => $path,
+//                'client_zoho_id' => $client_zoho_id,
                 ]);
 
         }
